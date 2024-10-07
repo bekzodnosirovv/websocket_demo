@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1 id="message">Message</h1>
+</body>
+</html>
+
+<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+<script src="webjars/stomp-websocket/stomp.min.js"></script>
+
+<script>
+
+    var socket = new SockJS("/websocket-connection");
+    stompClient = Stomp.over(socket)
+    stompClient.connect({}, function (frame) {
+        stompClient.subscribe("/topic/type", function (payload) {
+            document.getElementById("message").innerText = payload.body
+        })
+        stompClient.subscribe("/topic/keyDown", function (payload) {
+            document.getElementById("message").innerText = payload.body
+        })
+    })
+
+
+</script>

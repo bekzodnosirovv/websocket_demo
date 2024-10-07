@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1 id="socket">WebSocket</h1>
+<input type="text" id="message" onkeypress="typeMessage()" onkeyup="keyDown()">
+</body>
+</html>
+
+<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+<script src="webjars/stomp-websocket/stomp.min.js"></script>
+
+<script>
+
+    var socket = new SockJS("/websocket-connection");
+    stompClient = Stomp.over(socket)
+    stompClient.connect({}, function (frame) {
+        // stompClient.subscribe("/topic/date", function (payload) {
+        //     document.getElementById("socket").innerText = payload.body
+        // })
+    })
+
+    function typeMessage() {
+        stompClient.send("/app/type", null, {})
+    }
+
+    function keyDown() {
+        setTimeout(function () {
+            stompClient.send("/app/keyDown", null, {})
+        }, 3000)
+
+    }
+
+
+</script>
